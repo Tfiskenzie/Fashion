@@ -3,251 +3,789 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Orbital Fashion Universe</title>
+<title>ORBITAL — Fashion Universe</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* =======================
-   🌌 BASE STYLES
-======================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-body {
-  background: radial-gradient(circle at center, #05060a, #000);
-  color: white;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
+html{
+scroll-behavior:smooth;
 }
 
-/* =======================
-   🌠 STARFIELD CANVAS
-======================= */
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
+body{
+background:#020305;
+color:white;
+overflow-x:hidden;
+font-family:'Inter',sans-serif;
 }
 
-/* =======================
-   📊 SCROLL PROGRESS
-======================= */
-#progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: 0%;
-  background: white;
-  z-index: 1000;
+/* =========================================================
+   STARFIELD
+========================================================= */
+
+#stars{
+position:fixed;
+inset:0;
+z-index:-3;
 }
 
-/* =======================
-   🚀 HERO
-======================= */
-.hero {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+/* =========================================================
+   AMBIENT GLOW
+========================================================= */
+
+.glow{
+position:fixed;
+width:700px;
+height:700px;
+border-radius:50%;
+background:radial-gradient(circle, rgba(82,115,255,0.08), transparent 70%);
+filter:blur(80px);
+z-index:-2;
+pointer-events:none;
+animation:floatGlow 14s ease-in-out infinite alternate;
 }
 
-.brand {
-  font-size: 90px;
-  letter-spacing: 12px;
+.glow2{
+top:-200px;
+left:-100px;
 }
 
-.tagline {
-  opacity: 0.7;
-  margin-top: 10px;
+.glow3{
+bottom:-300px;
+right:-100px;
+animation-duration:18s;
 }
 
-.buttons {
-  margin-top: 25px;
+@keyframes floatGlow{
+from{
+transform:translateY(0px) translateX(0px);
+}
+to{
+transform:translateY(40px) translateX(50px);
+}
 }
 
-.buttons button {
-  margin: 10px;
-  padding: 12px 20px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: white;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  transition: 0.4s;
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+#progress{
+position:fixed;
+top:0;
+left:0;
+height:2px;
+width:0%;
+background:white;
+z-index:9999;
 }
 
-.buttons button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:28px 5%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:1000;
+backdrop-filter:blur(12px);
+background:rgba(0,0,0,0.1);
 }
 
-/* =======================
-   🪐 SECTIONS
-======================= */
-.section {
-  min-height: 100vh;
-  padding: 120px 20px;
-  text-align: center;
+.logo{
+font-family:'Cormorant Garamond',serif;
+font-size:28px;
+letter-spacing:6px;
 }
 
-.section h2 {
-  font-size: 42px;
-  margin-bottom: 20px;
+.nav-links{
+display:flex;
+gap:30px;
 }
 
-/* =======================
-   🧥 SATELLITES
-======================= */
-.satellites {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 40px;
+.nav-links a{
+text-decoration:none;
+color:rgba(255,255,255,0.7);
+font-size:14px;
+transition:0.4s;
 }
 
-.sat {
-  width: 140px;
-  height: 140px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.5s;
-  border-radius: 10px;
+.nav-links a:hover{
+color:white;
 }
 
-.sat:hover {
-  transform: rotate(3deg) scale(1.1);
-  box-shadow: 0 0 25px rgba(255,255,255,0.15);
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:0 10%;
+position:relative;
 }
 
-/* =======================
-   📦 ARCHIVE
-======================= */
-.archive {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 40px;
-  scroll-snap-type: x mandatory;
+.hero::before{
+content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(to bottom, transparent, #020305);
+z-index:-1;
 }
 
-.polaroid {
-  min-width: 220px;
-  height: 260px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  scroll-snap-align: center;
-  flex-shrink: 0;
-  transition: 0.4s;
+.hero-content{
+max-width:1000px;
 }
 
-.polaroid:hover {
-  transform: scale(1.05);
+.hero-sub{
+letter-spacing:4px;
+font-size:12px;
+text-transform:uppercase;
+opacity:0.6;
+margin-bottom:30px;
 }
 
-/* =======================
-   ✨ REVEAL ANIMATION
-======================= */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 1.2s ease;
+.hero h1{
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(70px,12vw,180px);
+font-weight:300;
+line-height:0.9;
+letter-spacing:8px;
 }
 
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+.hero p{
+margin-top:30px;
+font-size:18px;
+line-height:1.8;
+max-width:700px;
+margin-inline:auto;
+color:rgba(255,255,255,0.7);
 }
 
-/* =======================
-   🌌 FOOTER
-======================= */
-footer {
-  text-align: center;
-  padding: 60px;
-  opacity: 0.5;
+.hero-buttons{
+margin-top:50px;
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
 }
+
+.btn{
+padding:16px 28px;
+border-radius:50px;
+border:1px solid rgba(255,255,255,0.15);
+background:rgba(255,255,255,0.04);
+backdrop-filter:blur(12px);
+color:white;
+cursor:pointer;
+transition:0.5s;
+font-size:14px;
+letter-spacing:1px;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 0 40px rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.08);
+}
+
+/* =========================================================
+   SCROLL INDICATOR
+========================================================= */
+
+.scroll-indicator{
+position:absolute;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+font-size:12px;
+letter-spacing:4px;
+opacity:0.5;
+animation:float 2s ease-in-out infinite alternate;
+}
+
+@keyframes float{
+from{
+transform:translateX(-50%) translateY(0px);
+}
+to{
+transform:translateX(-50%) translateY(8px);
+}
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section{
+min-height:100vh;
+padding:140px 8%;
+position:relative;
+}
+
+.section-title{
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(40px,6vw,90px);
+font-weight:300;
+line-height:1;
+margin-bottom:30px;
+}
+
+.section-text{
+max-width:700px;
+font-size:18px;
+line-height:1.8;
+color:rgba(255,255,255,0.7);
+}
+
+/* =========================================================
+   FABRIC SECTION
+========================================================= */
+
+.fabric-grid{
+margin-top:80px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.fabric-card{
+height:420px;
+border-radius:24px;
+overflow:hidden;
+position:relative;
+background:
+linear-gradient(
+135deg,
+rgba(255,255,255,0.1),
+rgba(255,255,255,0.02)
+);
+border:1px solid rgba(255,255,255,0.08);
+transition:0.6s;
+}
+
+.fabric-card::before{
+content:'';
+position:absolute;
+inset:0;
+background:
+radial-gradient(circle at top,
+rgba(255,255,255,0.15),
+transparent 60%);
+}
+
+.fabric-card:hover{
+transform:translateY(-10px);
+}
+
+/* =========================================================
+   PRODUCT ORBITS
+========================================================= */
+
+.orbit-wrapper{
+margin-top:100px;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:50px;
+}
+
+.orbit{
+width:260px;
+height:260px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,0.08);
+position:relative;
+animation:rotateOrbit 20s linear infinite;
+}
+
+.orbit-item{
+position:absolute;
+top:-20px;
+left:50%;
+transform:translateX(-50%);
+width:110px;
+height:140px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,0.1);
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:20px;
+font-size:13px;
+letter-spacing:2px;
+transition:0.5s;
+}
+
+.orbit-item:hover{
+transform:translateX(-50%) scale(1.08);
+box-shadow:0 0 40px rgba(255,255,255,0.08);
+}
+
+@keyframes rotateOrbit{
+from{
+transform:rotate(0deg);
+}
+to{
+transform:rotate(360deg);
+}
+}
+
+/* =========================================================
+   LOOKBOOK
+========================================================= */
+
+.lookbook{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:40px;
+margin-top:80px;
+}
+
+.look{
+height:550px;
+border-radius:28px;
+overflow:hidden;
+position:relative;
+background:
+linear-gradient(
+to bottom,
+rgba(255,255,255,0.03),
+rgba(255,255,255,0.01)
+);
+border:1px solid rgba(255,255,255,0.08);
+transition:0.6s;
+}
+
+.look:hover{
+transform:translateY(-10px);
+}
+
+.look::before{
+content:'';
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+to top,
+rgba(0,0,0,0.8),
+transparent
+);
+}
+
+.look-content{
+position:absolute;
+bottom:40px;
+left:30px;
+right:30px;
+z-index:3;
+}
+
+.look-content h3{
+font-family:'Cormorant Garamond',serif;
+font-size:40px;
+font-weight:300;
+margin-bottom:10px;
+}
+
+.look-content p{
+opacity:0.7;
+line-height:1.7;
+}
+
+/* =========================================================
+   ARCHIVE
+========================================================= */
+
+.archive{
+display:flex;
+gap:30px;
+overflow-x:auto;
+padding-top:80px;
+}
+
+.archive::-webkit-scrollbar{
+display:none;
+}
+
+.polaroid{
+min-width:300px;
+height:420px;
+padding:20px;
+background:white;
+color:black;
+transform:rotate(-2deg);
+transition:0.5s;
+}
+
+.polaroid:nth-child(even){
+transform:rotate(2deg);
+}
+
+.polaroid:hover{
+transform:rotate(0deg) scale(1.03);
+}
+
+.photo{
+height:300px;
+background:#ddd;
+margin-bottom:20px;
+}
+
+.caption{
+font-family:'Cormorant Garamond',serif;
+font-size:28px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+padding:120px 8%;
+text-align:center;
+border-top:1px solid rgba(255,255,255,0.08);
+}
+
+footer h2{
+font-family:'Cormorant Garamond',serif;
+font-size:80px;
+font-weight:300;
+margin-bottom:20px;
+}
+
+footer p{
+opacity:0.6;
+max-width:700px;
+margin-inline:auto;
+line-height:1.8;
+}
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal{
+opacity:0;
+transform:translateY(80px);
+transition:1.5s ease;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:70px;
+}
+
+.nav-links{
+display:none;
+}
+
+.section{
+padding:120px 6%;
+}
+
+footer h2{
+font-size:50px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- 🌠 STARFIELD -->
+<div class="glow glow2"></div>
+<div class="glow glow3"></div>
+
 <canvas id="stars"></canvas>
 
-<!-- 📊 PROGRESS BAR -->
 <div id="progress"></div>
 
-<!-- 🚀 HERO -->
-<section class="hero reveal">
-  <div>
-    <h1 class="brand">ORBITAL</h1>
-    <p class="tagline">Designed for movement. Built for identity.</p>
+<!-- ======================================================
+     NAV
+====================================================== -->
 
-    <div class="buttons">
-      <button>Enter Collection</button>
-      <button>Explore Universe</button>
-    </div>
-  </div>
+<nav>
+<div class="logo">ORBITAL</div>
+
+<div class="nav-links">
+<a href="#">Universe</a>
+<a href="#">Archive</a>
+<a href="#">Collection</a>
+<a href="#">Contact</a>
+</div>
+</nav>
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+<div class="hero-content reveal">
+
+<div class="hero-sub">
+LAGOS / FUTURE / SPACE
+</div>
+
+<h1>
+ORBITAL
+</h1>
+
+<p>
+Designed for movement. Built for identity.
+A cinematic fashion universe inspired by Lagos nightlife,
+editorial storytelling, and futuristic space aesthetics.
+</p>
+
+<div class="hero-buttons">
+<button class="btn">ENTER COLLECTION</button>
+<button class="btn">EXPLORE UNIVERSE</button>
+</div>
+
+</div>
+
+<div class="scroll-indicator">
+SCROLL
+</div>
+
 </section>
 
-<!-- 🪐 PHILOSOPHY -->
-<section class="section reveal">
-  <h2>We don’t design clothes. We design presence.</h2>
+<!-- ======================================================
+     PHILOSOPHY
+====================================================== -->
+
+<section class="section">
+
+<div class="reveal">
+
+<h2 class="section-title">
+We don’t design clothes.
+We design presence.
+</h2>
+
+<p class="section-text">
+A world where fashion behaves like memory,
+movement, atmosphere, and identity.
+Every collection feels like a new orbit.
+Every silhouette becomes part of the universe.
+</p>
+
+</div>
+
 </section>
 
-<!-- 🧵 FABRIC -->
-<section class="section reveal">
-  <h2>Fabric Universe</h2>
-  <p>Textures behave like planetary surfaces in orbit.</p>
+<!-- ======================================================
+     FABRIC UNIVERSE
+====================================================== -->
+
+<section class="section">
+
+<div class="reveal">
+
+<h2 class="section-title">
+Fabric Universe
+</h2>
+
+<p class="section-text">
+Textures behave like planetary surfaces.
+Slow lighting. Atmospheric depth.
+Materials floating between Lagos heat and futuristic silence.
+</p>
+
+<div class="fabric-grid">
+
+<div class="fabric-card"></div>
+<div class="fabric-card"></div>
+<div class="fabric-card"></div>
+
+</div>
+
+</div>
+
 </section>
 
-<!-- 🧥 SATELLITES -->
-<section class="section reveal">
-  <h2>Satellite Collection</h2>
+<!-- ======================================================
+     PRODUCT ORBITS
+====================================================== -->
 
-  <div class="satellites">
-    <div class="sat">Hoodie</div>
-    <div class="sat">Jacket</div>
-    <div class="sat">Set</div>
-    <div class="sat">Tee</div>
-  </div>
+<section class="section">
+
+<div class="reveal">
+
+<h2 class="section-title">
+Satellite Collection
+</h2>
+
+<p class="section-text">
+Products drifting through orbit like artifacts
+from another dimension of streetwear.
+</p>
+
+<div class="orbit-wrapper">
+
+<div class="orbit">
+<div class="orbit-item">HOODIE</div>
+</div>
+
+<div class="orbit">
+<div class="orbit-item">JACKET</div>
+</div>
+
+<div class="orbit">
+<div class="orbit-item">TEE</div>
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<!-- 📦 ARCHIVE -->
-<section class="section reveal">
-  <h2>The Archive</h2>
+<!-- ======================================================
+     LOOKBOOK
+====================================================== -->
 
-  <div class="archive">
-    <div class="polaroid">Lagos Heat</div>
-    <div class="polaroid">Studio Silence</div>
-    <div class="polaroid">Night Orbit</div>
-    <div class="polaroid">Street Gravity</div>
-  </div>
+<section class="section">
+
+<div class="reveal">
+
+<h2 class="section-title">
+Constellation Stories
+</h2>
+
+<div class="lookbook">
+
+<div class="look">
+<div class="look-content">
+<h3>Night Orbit</h3>
+<p>
+Heatwave in Lagos stitched into silence.
+Neon shadows drifting through the city.
+</p>
+</div>
+</div>
+
+<div class="look">
+<div class="look-content">
+<h3>Gravity Shift</h3>
+<p>
+Editorial silhouettes designed for movement,
+presence, and controlled chaos.
+</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<!-- 🌌 FOOTER -->
+<!-- ======================================================
+     ARCHIVE
+====================================================== -->
+
+<section class="section">
+
+<div class="reveal">
+
+<h2 class="section-title">
+Memory Orbit
+</h2>
+
+<p class="section-text">
+A floating archive of campaigns,
+street moments, backstage memories,
+and cultural fragments.
+</p>
+
+<div class="archive">
+
+<div class="polaroid">
+<div class="photo"></div>
+<div class="caption">
+Lagos Heat / SS26
+</div>
+</div>
+
+<div class="polaroid">
+<div class="photo"></div>
+<div class="caption">
+Night Economy
+</div>
+</div>
+
+<div class="polaroid">
+<div class="photo"></div>
+<div class="caption">
+Street Gravity
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
 <footer class="reveal">
-  ORBITAL FASHION UNIVERSE © 2026
+
+<h2>
+ENTER THE UNIVERSE
+</h2>
+
+<p>
+Identity is not worn.
+It is projected.
+A cinematic fashion experience inspired by space,
+music culture, and futuristic Lagos storytelling.
+</p>
+
 </footer>
 
 <script>
-/* =======================
-   🌠 STARFIELD SYSTEM
-======================= */
+
+/* =========================================================
+   STARFIELD
+========================================================= */
+
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 
@@ -256,71 +794,98 @@ canvas.height = window.innerHeight;
 
 let stars = [];
 
-for (let i = 0; i < 250; i++) {
-  stars.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 1.5,
-    d: Math.random() * 0.5
-  });
-}
+for(let i=0;i<350;i++){
 
-function drawStars() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "white";
-
-  stars.forEach(s => {
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fill();
-
-    s.y += s.d;
-
-    if (s.y > canvas.height) {
-      s.y = 0;
-      s.x = Math.random() * canvas.width;
-    }
-  });
-
-  requestAnimationFrame(drawStars);
-}
-
-drawStars();
-
-/* =======================
-   📊 SCROLL PROGRESS
-======================= */
-window.addEventListener("scroll", () => {
-  const scrollTop = document.documentElement.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = (scrollTop / scrollHeight) * 100;
-  document.getElementById("progress").style.width = progress + "%";
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*1.5,
+d:Math.random()*0.3,
+o:Math.random()
 });
 
-/* =======================
-   ✨ REVEAL SYSTEM
-======================= */
+}
+
+function animateStars(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+stars.forEach(star=>{
+
+ctx.beginPath();
+ctx.arc(star.x,star.y,star.r,0,Math.PI*2);
+
+ctx.fillStyle=`rgba(255,255,255,${star.o})`;
+
+ctx.fill();
+
+star.y += star.d;
+
+if(star.y > canvas.height){
+star.y = 0;
+star.x = Math.random()*canvas.width;
+}
+
+});
+
+requestAnimationFrame(animateStars);
+
+}
+
+animateStars();
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+window.addEventListener("scroll",()=>{
+
+const scrollTop = document.documentElement.scrollTop;
+
+const scrollHeight =
+document.documentElement.scrollHeight
+- window.innerHeight;
+
+const progress = (scrollTop/scrollHeight)*100;
+
+document.getElementById("progress").style.width =
+progress + "%";
+
+});
+
+/* =========================================================
+   REVEAL SYSTEM
+========================================================= */
+
 const reveals = document.querySelectorAll(".reveal");
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("active");
-    }
-  });
-}, {
-  threshold: 0.1
+const observer = new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+entry.target.classList.add("active");
+}
+
 });
 
-reveals.forEach(el => observer.observe(el));
-
-/* =======================
-   🌌 RESIZE FIX
-======================= */
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+},{
+threshold:0.1
 });
+
+reveals.forEach(el=>observer.observe(el));
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener("resize",()=>{
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+});
+
 </script>
 
 </body>

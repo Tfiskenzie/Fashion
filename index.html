@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Orbital Fashion Universe</title>
+
+<style>
+/* =======================
+   🌌 BASE STYLES
+======================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at center, #05060a, #000);
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* =======================
+   🌠 STARFIELD CANVAS
+======================= */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+/* =======================
+   📊 SCROLL PROGRESS
+======================= */
+#progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: white;
+  z-index: 1000;
+}
+
+/* =======================
+   🚀 HERO
+======================= */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.brand {
+  font-size: 90px;
+  letter-spacing: 12px;
+}
+
+.tagline {
+  opacity: 0.7;
+  margin-top: 10px;
+}
+
+.buttons {
+  margin-top: 25px;
+}
+
+.buttons button {
+  margin: 10px;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: 0.4s;
+}
+
+.buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+/* =======================
+   🪐 SECTIONS
+======================= */
+.section {
+  min-height: 100vh;
+  padding: 120px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+/* =======================
+   🧥 SATELLITES
+======================= */
+.satellites {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.sat {
+  width: 140px;
+  height: 140px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.5s;
+  border-radius: 10px;
+}
+
+.sat:hover {
+  transform: rotate(3deg) scale(1.1);
+  box-shadow: 0 0 25px rgba(255,255,255,0.15);
+}
+
+/* =======================
+   📦 ARCHIVE
+======================= */
+.archive {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 40px;
+  scroll-snap-type: x mandatory;
+}
+
+.polaroid {
+  min-width: 220px;
+  height: 260px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  transition: 0.4s;
+}
+
+.polaroid:hover {
+  transform: scale(1.05);
+}
+
+/* =======================
+   ✨ REVEAL ANIMATION
+======================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.2s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =======================
+   🌌 FOOTER
+======================= */
+footer {
+  text-align: center;
+  padding: 60px;
+  opacity: 0.5;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌠 STARFIELD -->
+<canvas id="stars"></canvas>
+
+<!-- 📊 PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- 🚀 HERO -->
+<section class="hero reveal">
+  <div>
+    <h1 class="brand">ORBITAL</h1>
+    <p class="tagline">Designed for movement. Built for identity.</p>
+
+    <div class="buttons">
+      <button>Enter Collection</button>
+      <button>Explore Universe</button>
+    </div>
+  </div>
+</section>
+
+<!-- 🪐 PHILOSOPHY -->
+<section class="section reveal">
+  <h2>We don’t design clothes. We design presence.</h2>
+</section>
+
+<!-- 🧵 FABRIC -->
+<section class="section reveal">
+  <h2>Fabric Universe</h2>
+  <p>Textures behave like planetary surfaces in orbit.</p>
+</section>
+
+<!-- 🧥 SATELLITES -->
+<section class="section reveal">
+  <h2>Satellite Collection</h2>
+
+  <div class="satellites">
+    <div class="sat">Hoodie</div>
+    <div class="sat">Jacket</div>
+    <div class="sat">Set</div>
+    <div class="sat">Tee</div>
+  </div>
+</section>
+
+<!-- 📦 ARCHIVE -->
+<section class="section reveal">
+  <h2>The Archive</h2>
+
+  <div class="archive">
+    <div class="polaroid">Lagos Heat</div>
+    <div class="polaroid">Studio Silence</div>
+    <div class="polaroid">Night Orbit</div>
+    <div class="polaroid">Street Gravity</div>
+  </div>
+</section>
+
+<!-- 🌌 FOOTER -->
+<footer class="reveal">
+  ORBITAL FASHION UNIVERSE © 2026
+</footer>
+
+<script>
+/* =======================
+   🌠 STARFIELD SYSTEM
+======================= */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for (let i = 0; i < 250; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5,
+    d: Math.random() * 0.5
+  });
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+
+  stars.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    s.y += s.d;
+
+    if (s.y > canvas.height) {
+      s.y = 0;
+      s.x = Math.random() * canvas.width;
+    }
+  });
+
+  requestAnimationFrame(drawStars);
+}
+
+drawStars();
+
+/* =======================
+   📊 SCROLL PROGRESS
+======================= */
+window.addEventListener("scroll", () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / scrollHeight) * 100;
+  document.getElementById("progress").style.width = progress + "%";
+});
+
+/* =======================
+   ✨ REVEAL SYSTEM
+======================= */
+const reveals = document.querySelectorAll(".reveal");
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("active");
+    }
+  });
+}, {
+  threshold: 0.1
+});
+
+reveals.forEach(el => observer.observe(el));
+
+/* =======================
+   🌌 RESIZE FIX
+======================= */
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
